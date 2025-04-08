@@ -1,9 +1,9 @@
 <?php
-// Подключение к базе
+// Join DB
 $host = 'localhost';
-$db = 'phphost'; // измени на свою базу
-$user = 'root'; // измени, если не root
-$pass = ''; // измени, если есть пароль
+$db = 'phphost'; 
+$user = 'root';
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -15,18 +15,21 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    exit("Ошибка подключения к базе: " . $e->getMessage());
+    exit("Connection Error: " . $e->getMessage());
 }
 
-// Обработка формы
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') 
     $question = $_POST['question'] ?? '';
     $answer = $_POST['answer'] ?? '';
     
     if (!empty($question) && !empty($answer)) {
+        $stmt = $pdo->prepare("SELECT * FROM questions WHERE question = ?");
         $stmt = $pdo->prepare("INSERT INTO questions (question, answer) VALUES (?, ?)");
         $stmt->execute([$question, $answer]);
         $success = true;
+        $existingQuestion = $stmt->fetch();
+    if ($existingQuestion) {
+            $error = "This question already exist";
     } else {
         $error = "Please fulfil both";
     }
