@@ -317,7 +317,7 @@ https://templatemo.com/tm-541-host-cloud
                 </div>
                 <p>"Ut elementum a elit sed tristique. Pellentesque sed semper erat. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean quam erat, rutrum ut malesuada."</p>
                 <h4>William Smith</h4>
-                <span>New Co-Founder</span>
+                <a href="QnA.php">Questions and Answers</a>
               </div>
               <div class="testimonial-item">
                 <div class="icon">
