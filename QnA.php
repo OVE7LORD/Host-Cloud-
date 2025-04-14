@@ -1,42 +1,31 @@
 <?php
-// Join DB
-$host = 'localhost';
-$db = 'phphost'; 
-$user = 'root';
-$pass = '';
-$charset = 'utf8mb4';
+require_once 'parts/QnA_part.php';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-];
+$qna = new QnA(); // connect to db abd metods
 
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    exit("Connection Error: " . $e->getMessage());
-}
+$success = false;
+$error = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+// form
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $question = $_POST['question'] ?? '';
     $answer = $_POST['answer'] ?? '';
-    
+
     if (!empty($question) && !empty($answer)) {
-        $stmt = $pdo->prepare("SELECT * FROM questions WHERE question = ?");
-        $stmt = $pdo->prepare("INSERT INTO questions (question, answer) VALUES (?, ?)");
-        $stmt->execute([$question, $answer]);
-        $success = true;
-        $existingQuestion = $stmt->fetch();
-    if ($existingQuestion) {
-            $error = "This question already exist";
+        $result = $qna->addQuestion($question, $answer);
+
+        if (isset($result['error'])) {
+            $error = $result['error'];
+        } else {
+            $success = true;
+        }
     } else {
-        $error = "Please fulfil both";
+        $error = "Please fulfill both fields";
     }
 }
 
-// get question
-$questions = $pdo->query("SELECT * FROM questions ORDER BY id DESC")->fetchAll();
+
+$questions = $qna->getAllQuestions();
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +92,7 @@ $questions = $pdo->query("SELECT * FROM questions ORDER BY id DESC")->fetchAll()
     <h1>Add question and answer</h1>
 
     <?php if (!empty($success)): ?>
-        <div class="message success">successefully added!</div>
+        <div class="message success">Successfully added!</div>
     <?php elseif (!empty($error)): ?>
         <div class="message error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
