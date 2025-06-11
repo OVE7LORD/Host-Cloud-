@@ -1,0 +1,101 @@
+/* Стили для страниц аутентификации */
+
+/* Общий контейнер */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовок */
+.auth-header {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Группа формы */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Метка формы */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Поля ввода */
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+/* Активное поле ввода */
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Кнопка */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Кнопка первичного действия */
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Кнопка вторичного действия */
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Эффект при наведении на кнопку */
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Сообщение об ошибке */
+.error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+/* Ссылка */
+.auth-link {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Эффект при наведении на ссылку */
+.auth-link:hover {
+    text-decoration: underline;
+}

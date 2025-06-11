@@ -1,21 +1,40 @@
 <?php
-require_once 'Database.php';
+require_once dirname(__DIR__) . '/Database.php';
 
-class QnA extends Database {
-    public function addQuestion($question, $answer) {
-        $stmt = $this->pdo->prepare("SELECT * FROM questions WHERE question = ?");
-        $stmt->execute([$question]);
-        if ($stmt->fetch()) {
-            return ['error' => 'This question already exists'];
+class QnA {
+    private $db;
+    
+    public function __construct() {
+        try {
+            $this->db = (new Database())->connect();
+        } catch (PDOException $e) {
+            die("Connection error: " . $e->getMessage());
         }
-
-        $stmt = $this->pdo->prepare("INSERT INTO questions (question, answer) VALUES (?, ?)");
-        $stmt->execute([$question, $answer]);
-        return ['success' => true];
+    }
+    
+    public function addQuestion($question, $answer) {
+        try {
+            $query = "INSERT INTO questions (question, answer) VALUES (?, ?)";
+            $stmt = $this->db->prepare($query);
+            
+            if ($stmt->execute([$question, $answer])) {
+                return ['success' => true];
+            } else {
+                return ['error' => 'Error adding question'];
+            }
+        } catch (PDOException $e) {
+            return ['error' => 'Database error: ' . $e->getMessage()];
+        }
     }
 
     public function getAllQuestions() {
-        return $this->pdo->query("SELECT * FROM questions ORDER BY id DESC")->fetchAll();
+        try {
+            $query = "SELECT * FROM questions ORDER BY id DESC";
+            $stmt = $this->db->query($query);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
     }
 }
 ?>

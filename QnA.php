@@ -1,19 +1,26 @@
 <?php
+// подключаем файл с классом для работы с вопросами
 require_once 'parts/QnA_part.php';
 
-$qna = new QnA(); // connect to db abd metods
+// создаем объект для работы с вопросами
+$qna = new QnA();
 
+// переменные для ошибок и успеха
 $success = false;
 $error = '';
 
-// form
+// если форма отправлена
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // получаем данные из формы
     $question = $_POST['question'] ?? '';
     $answer = $_POST['answer'] ?? '';
 
+    // проверяем, заполнены ли поля
     if (!empty($question) && !empty($answer)) {
+        // добавляем новый вопрос
         $result = $qna->addQuestion($question, $answer);
 
+        // проверяем результат
         if (isset($result['error'])) {
             $error = $result['error'];
         } else {
@@ -24,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
+// получаем все вопросы из базы
 $questions = $qna->getAllQuestions();
 ?>
 
@@ -32,7 +39,7 @@ $questions = $qna->getAllQuestions();
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Вопросы и Ответы</title>
+    <title>Q&A</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-host-cloud.css">
@@ -87,7 +94,7 @@ $questions = $qna->getAllQuestions();
         }
     </style>
 </head>
-<>
+<body>
 <div class="container">
     <h1>Add question and answer</h1>
 

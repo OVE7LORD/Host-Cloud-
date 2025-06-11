@@ -21,12 +21,22 @@
               <li class="nav-item">
                 <a class="nav-link" href="contact.php">Contact Us</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" href="QnA.php">Q&A</a>
+              </li>
             </ul>
           </div>
           <div class="functional-buttons">
             <ul>
-              <li><a href="#">Log in</a></li>
-              <li><a href="#">Sign Up</a></li>
+              <?php
+              if(isset($_SESSION['user_id'])) {
+                  echo '<li><a href="logout.php">Logout</a></li>';
+                  echo '<li><a href="#">Welcome, ' . htmlspecialchars($_SESSION['username']) . '</a></li>';
+              } else {
+                  echo '<li><a href="login.php">Log in</a></li>';
+                  echo '<li><a href="register.php">Sign Up</a></li>';
+              }
+              ?>
             </ul>
           </div>
         </div>
